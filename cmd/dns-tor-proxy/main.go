@@ -18,6 +18,7 @@ func main(){
 	var version *bool = pflag.BoolP("version", "v", false, "Prints the version and exists.")
 	var doh *bool = pflag.Bool("doh", false, "Use DoH servers as upstream.")
 	var dohserver *string = pflag.String("dohaddress", "https://mozilla.cloudflare-dns.com/dns-query", "The DoH server address.")
+  var listenaddr *string = pflag.String("listenaddress","127.0.0.1","The Address to listen on")
 	pflag.Usage = func () {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 		pflag.PrintDefaults()
@@ -48,5 +49,5 @@ func main(){
 	} else {
 		fmt.Printf("Using %s as upstream server\n", *server)
 	}
-	dserver.Listen(port, server, proxy, client, doh);
+	dserver.Listen(port,listenaddr, server, proxy, client, doh);
 }

@@ -3,7 +3,7 @@ package dserver
 import (
 	"fmt"
 	"os"
-
+  "strings"
 	"github.com/miekg/dns"
 	"golang.org/x/net/proxy"
 )
@@ -12,18 +12,18 @@ var serverurl string
 var proxyurl string
 var dclient *Client
 
-func Listen(port *int, serveraddr, proxyaddr *string, client *Client, doh *bool) {
+func Listen(port *int,listenaddr *string, serveraddr, proxyaddr *string, client *Client, doh *bool) {
 	serverurl = *serveraddr
 	proxyurl = *proxyaddr
 	// Here we will replicate the doh-client from amazing 13253
 	dclient = client
-
+	
 	serveMux := dns.NewServeMux()
 	serveMux.HandleFunc(".", func(w dns.ResponseWriter, req *dns.Msg) {
 		handleRequest(w, req, doh)
 	})
 
-	server := &dns.Server{Addr: fmt.Sprintf(":%d", *port), Net: "udp", Handler: serveMux}
+	server := &dns.Server{Addr: strings.Join([]string{fmt.Sprintf("%s",*listenaddr),fmt.Sprintf(":%d", *port)},""), Net: "udp", Handler: serveMux}
 	err := server.ListenAndServe()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error while starting the server: %s\n", err)

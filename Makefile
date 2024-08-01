@@ -4,7 +4,7 @@ SHELL := /bin/bash
 
 .PHONY: build
 build:  ## Builds the executable
-		go build github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+		CGO_ENABLED=0 go build -ldflags="-d -w -s" -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 		sudo setcap cap_net_bind_service=+ep ./dns-tor-proxy
 
 .PHONY: clean

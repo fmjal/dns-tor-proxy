@@ -11,14 +11,14 @@ import (
 
 
 func main(){
-	var port *int = pflag.Int("port", 53, "Port on which the tool will listen.")
-	var server *string = pflag.String("server", "1.1.1.1:53", "The DNS server to connect IP:PORT format.")
-	var proxy *string = pflag.String("proxy", "127.0.0.1:9050", "The Tor SOCKS5 proxy to connect locally, IP:PORT format.")
+	var port *int = pflag.IntP("port","p",53, "Port on which the tool will listen.")
+	var server *string = pflag.StringP("server","s","1.1.1.1:53", "The DNS server to connect IP:PORT format.")
+	var proxy *string = pflag.String("proxyaddress","127.0.0.1:9050", "The Tor SOCKS5 proxy to connect locally, IP:PORT format.")
 	var help *bool = pflag.BoolP("help", "h", false, "Prints the help message and exists.")
 	var version *bool = pflag.BoolP("version", "v", false, "Prints the version and exists.")
-	var doh *bool = pflag.Bool("doh", true, "Use DoH servers as upstream.")
-	var dohserver *string = pflag.String("dohaddress", "https://dns.adguard.com/dns-query", "The DoH server address.")
-    var listenaddr *string = pflag.String("listenaddress","127.53.53.1","The Address to listen on")
+	var doh *bool = pflag.BoolP("dns-over-https","e", false, "Use DoH servers as upstream.")
+	var dohserver *string = pflag.StringP("dohaddress","d","https://dns.adguard.com/dns-query", "The DoH server address.")
+    var listenaddr *string = pflag.StringP("listenaddress","l","127.53.53.53","The Address to listen on")
 	pflag.Usage = func () {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 		pflag.PrintDefaults()
@@ -45,9 +45,9 @@ func main(){
 
 	fmt.Printf("Starting server\r\nListening at\t%s:%d\r\nlocal proxy at\t%s\r\n", *listenaddr, *port, *proxy)
 	if *doh {
-		fmt.Printf("Using DoH at\t%s as upstream.\r\n", *dohserver)
+		fmt.Printf("Upstream DoH at\t%s\r\n", *dohserver)
 	} else {
-		fmt.Printf("Using DNS at\t%supstream server\r\n", *server)
+		fmt.Printf("Upstream DNS at\t%s\r\n", *server)
 	}
 	dserver.Listen(port,listenaddr, server, proxy, client, doh);
 }

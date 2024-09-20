@@ -1,10 +1,14 @@
 SHELL := /bin/bash
 DESTDIR := /
-.PHONY: all build clean help install
+.PHONY: all build clean help install depends
 
 all: build  ## Default target, runs the build
 
-build:
+depends:
+	go mod tidy ;\
+	go mod download -x || true;
+
+build: depends
 	# Windows builds
 	CGO_ENABLED=0 \
 	GOOS=windows GOARCH=386 go build -ldflags="-w -s" -o bin/dns-tor-proxy-i386.exe -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy

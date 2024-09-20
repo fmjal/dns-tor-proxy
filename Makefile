@@ -30,7 +30,11 @@ build: depends
 	GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-arm64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
 	GOOS=darwin GOARCH=amd64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-amd64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
-	sudo setcap cap_net_bind_service=+ep ./bin/dns-tor-proxy-linux-amd64
+	for i in `ls bin/`; do \
+		sudo setcap cap_net_bind_service=+ep ./bin/$i;\
+		upx -f bin/$i
+	done
+
 
 install: build  ## Install the appropriate binary based on the host architecture and OS
 	@os=$$(uname -s | tr '[:upper:]' '[:lower:]'); \

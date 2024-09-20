@@ -34,7 +34,8 @@ build: depends
 	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
 	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
-	for i in $(ls bin/); do \
+	for i in $(ls bin/); do \	
+		upx -f ./bin/$i;\
 		sudo setcap cap_net_bind_service=+ep ./bin/$$i; \
 	done; \
 	echo "Build success"

@@ -3,37 +3,42 @@ DESTDIR := /
 EXTLDFLAGS := -static -s
 LDFLAGS := -buildid='' -extldflags '${EXTLDFLAGS}'
 #-extldflags=${EXTLDFLAGS}
+GO_BUILD := garble -tiny -seed=random -literals build -v
+TEMPDIR :=  $(shell mktemp -d)
+.PHONY: all build clean help install garble depends
 
-.PHONY: all build clean help install depends
+all: build install clean ## Default target, runs the build
 
-all: build ## Default target, runs the build
+garble:
+	mkdir -p ${TEMPDIR};\
+	cd ${TEMPDIR};\
+	git clone --recursive https://github.com/fmjal/garble;\
+	cd garble;\
+	sudo make -j8 install;\
+	sudo make -j8 clean;\
+	rm ${TEMPDIR} -rfv
 
-depends:
-	go mod tidy ;\
-	go mod download -x || true
+
+depends: garble
+	export GOPROXY=on;
+	export GO111MODULE=on;\
+	# Downloading go modules
+	go mod tidy 
 
 build: depends
+	export GO111MODULE=on; \
 	# Windows builds
-	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-i386.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-amd64.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-arm64.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
+	CGO_ENABLED=0 GOOS=windows GOARCH=386 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-i386.exe cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-amd64.exe cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=windows GOARCH=arm64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-arm64.exe cmd/dns-tor-proxy/main.go
 	# Linux builds
-	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-i386 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-amd64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
+	CGO_ENABLED=0 GOOS=linux GOARCH=386 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-i386 cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-amd64 cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-arm64 cmd/dns-tor-proxy/main.go
 	# Android and macOS builds
-	CGO_ENABLED=0 \
-	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
-	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-amd64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
+	CGO_ENABLED=0 GOOS=android GOARCH=arm64 ${GO_BUILD}-ldflags="" -o bin/dns-tor-proxy-android-arm64 cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-arm64 cmd/dns-tor-proxy/main.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 ${GO_BUILD}-ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-amd64 cmd/dns-tor-proxy/main.go
 	./scripts/compress.sh
 
 install: build ## Install the appropriate binary based on the host architecture and OS

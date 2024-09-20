@@ -8,7 +8,7 @@ all: build ## Default target, runs the build
 depends:
 	go mod tidy ;\
 	go mod download -x || true;\
-	sudo apt-get install -qqqqy upx 2> /dev/null > /dev/nul
+	sudo apt-get install -qqqqy upx 2> /dev/null > /dev/null
 
 build: depends
 	# Windows builds

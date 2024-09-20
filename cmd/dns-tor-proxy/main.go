@@ -13,7 +13,7 @@ import (
 func main(){
 	var port *int = pflag.IntP("port","p",53, "Port on which the tool will listen.")
 	var server *string = pflag.StringP("server","s","1.1.1.1:53", "The DNS server to connect IP:PORT format.")
-	var proxy *string = pflag.StringP("socksproxy","s","127.0.0.1:9050", "The Tor SOCKS5 proxy to connect locally, IP:PORT format.")
+	var proxy *string = pflag.StringP("socksproxy","t","127.0.0.1:9050", "The SOCKS5 proxy(default=tor) to connect locally, IP:PORT format.")
 	var help *bool = pflag.BoolP("help", "h", false, "Prints the help message and exists.")
 	var version *bool = pflag.BoolP("version", "v", false, "Prints the version and exists.")
 	var doh *bool = pflag.BoolP("dns-over-https","e", false, "Use DoH servers as upstream.")

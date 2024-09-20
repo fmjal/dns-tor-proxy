@@ -3,8 +3,8 @@ DESTDIR := /
 EXTLDFLAGS := -static -s
 LDFLAGS := -buildid='' -extldflags '${EXTLDFLAGS}'
 #-extldflags=${EXTLDFLAGS}
-GO_BUILD := go build -v 
-#GO_BUILD := garble -tiny -seed=random -literals build -v 
+GO_BUILD := go build  
+#GO_BUILD := garble -tiny -seed=random -literals build  
 TEMPDIR :=  $(shell mktemp -d)
 WORKDIR := $(shell pwd)
 
@@ -18,7 +18,7 @@ garble:
 #	git clone https://github.com/fmjal/garble ${TEMPDIR}/garble;\
 #	cd ${TEMPDIR}/garble;\
 #	sudo go mod tidy;\
-#	sudo go build -v -o /usr/bin/garble;\
+#	sudo go build  -o /usr/bin/garble;\
 #	sudo make clean;\
 	cd ${WORKDIR};\
 	rm -rfv ${TEMPDIR}

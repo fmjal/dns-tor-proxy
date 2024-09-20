@@ -2,7 +2,7 @@ SHELL := /bin/bash
 DESTDIR := /
 .PHONY: all build clean help install depends
 
-all: build  ## Default target, runs the build
+all: build ## Default target, runs the build
 
 depends:
 	go mod tidy ;\
@@ -11,32 +11,33 @@ depends:
 build: depends
 	# Windows builds
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=386 go build -ldflags="-w -s" -o bin/dns-tor-proxy-i386.exe -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=386 go build -ldflags="-w -s" -o bin/dns-tor-proxy-i386.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=amd64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-amd64.exe -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=amd64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-amd64.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=arm64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-arm64.exe -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=arm64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-arm64.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	# Linux builds
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=386 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-i386 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=386 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-i386 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=amd64 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-amd64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=amd64 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=arm64 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-arm64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=arm64 go build -ldflags="-d -w -s" -o bin/dns-tor-proxy-linux-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	# Android and macOS builds
 	CGO_ENABLED=0 \
-	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-arm64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=amd64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-amd64 -v github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=amd64 go build -ldflags="-w -s" -o bin/dns-tor-proxy-darwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	for i in `ls bin/`; do \
 		sudo setcap cap_net_bind_service=+ep ./bin/$i;\
-		upx -f bin/$i
-	done
+		upx -f bin/$i;\
+	done; \
+	echo "Build success"
 
 
-install: build  ## Install the appropriate binary based on the host architecture and OS
+install: build ## Install the appropriate binary based on the host architecture and OS
 	@os=$$(uname -s | tr '[:upper:]' '[:lower:]'); \
 	arch=$$(uname -m); \
 	if [ "$$os" = "linux" ]; then \
@@ -58,8 +59,8 @@ install: build  ## Install the appropriate binary based on the host architecture
 		sudo install -m 0644 ./files/resolved.conf ${DESTDIR}/etc/systemd/; \
 		sudo install -m 0644 00-dns-tor-proxy.conf ${DESTDIR}/etc/systemd/resolved.conf.d;\
 		sudo systemctl enable systemd-resolved dns-tor-proxy; \
-        sudo systemctl daemon-reload; \
-        sudo systemctl restart dns-tor-proxy systemd-resolved; \
+    sudo systemctl daemon-reload; \
+    sudo systemctl restart dns-tor-proxy systemd-resolved; \
 		sudo systemctl start dns-tor-proxy; \
 	elif [ "$$os" = "darwin" ]; then \
 		if [ "$$arch" = "x86_64" ]; then \

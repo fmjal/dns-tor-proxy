@@ -3,7 +3,7 @@ DESTDIR := /
 EXTLDFLAGS := -static -s
 LDFLAGS := -buildid='' -extldflags '${EXTLDFLAGS}'
 #-extldflags=${EXTLDFLAGS}
-GO_BUILD := go build -v
+GO_BUILD := go build -v 
 #GO_BUILD := garble -tiny -seed=random -literals build -v 
 TEMPDIR :=  $(shell mktemp -d)
 WORKDIR := $(shell pwd)

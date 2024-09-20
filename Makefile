@@ -31,9 +31,9 @@ build: depends
 	CGO_ENABLED=0 \
 	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	./scripts/compress.sh
 
 install: build ## Install the appropriate binary based on the host architecture and OS
@@ -53,10 +53,11 @@ install: build ## Install the appropriate binary based on the host architecture 
 		echo "Installing dependencies..."; \
 		sudo apt-get install -yqq systemd-resolved tor 2> /dev/null > /dev/null; \
 		sudo install -m 0644 ./files/dns-tor-proxy.service ${DESTDIR}/lib/systemd/system/; \
-		sudo mkdir -p ${DESTDIR}/etc/permissions-hardener.d; \
+		sudo mkdir -p ${DESTDIR}/etc/permission-hardener.d; \
 		sudo mkdir -p ${DESTDIR}/etc/systemd/resolved.conf.d; \
 		sudo install -m 0644 ./files/resolved.conf ${DESTDIR}/etc/systemd/; \
 		sudo install -m 0644 ./files/00-dns-tor-proxy.conf ${DESTDIR}/etc/systemd/resolved.conf.d; \
+        sudo install -m 0644 ./files/99-dns-tor-proxy.conf ${DESTDIR}/etc/permission-hardener.d; \
 		sudo systemctl enable systemd-resolved dns-tor-proxy; \
 		sudo systemctl daemon-reload; \
 		sudo systemctl restart dns-tor-proxy systemd-resolved; \

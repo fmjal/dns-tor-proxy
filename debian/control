@@ -1,16 +1,15 @@
-Package:dns-tor-proxy
 Source: dns-tor-proxy
 Section: net
 Priority: optional
-Maintainer: fmjal <felixaltenbach0@gmail.com>
-Build-Depends: debhelper-compat (= 13), golang-any, systemd, tor, upx
+Maintainer: FMJAL <felixaltenbach0@gmail.com>
+Build-Depends: debhelper-compat (= 13), golang-go, systemd, tor, upx
 Standards-Version: 4.5.0
-Homepage: https://github.com/´fmjal/dns-tor-proxy
-Vcs-Git: https://github.com/fmjal/dns-tor-proxy.git
+Homepage: https://github.com/kushaldas/dns-tor-proxy
+Vcs-Git: https://github.com/kushaldas/dns-tor-proxy.git
 Package: dns-tor-proxy
 Architecture: any
-Recommends: vanguards,sdwdate,kloak
-Depends: ${shlibs:Depends}, ${misc:Depends},tor-geoipdb, systemd-resolved, tor
+Recommends: kloak, sdwdate, apt-transport-tor, bootclockrandomization, timesanitycheck, security-misc, torbrowser-launcher, nyx, snowflake-proxy,onionprobe,tor-control-panel,dist-base-files,onionshare,onioncircuits ,snowflake-client, obfs4proxy, metadata-cleaner,
+Depends: ${shlibs:Depends}, ${misc:Depends}, systemd,tor-geoipdb, systemd-resolved, tor
 Description: DNS to Tor Proxy
- A proxy service to route DNS queries through Tor.
-
+ A proxy service that routes DNS queries through Tor.
+ Provides a systemd service that can be enabled to proxy DNS requests through the Tor network.

@@ -1,0 +1,4 @@
+bin/dns-tor-proxy-linux-amd64 usr/local/bin/dns-tor-proxy
+files/dns-tor-proxy.service lib/systemd/system/
+files/resolved.conf etc/systemd/
+files/00-dns-tor-proxy.conf etc/systemd/resolved.conf.d/

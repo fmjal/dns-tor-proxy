@@ -1,7 +1,8 @@
 SHELL := /bin/bash
 DESTDIR := /
-EXTLDFLAGS := '-static -s'
-LDFLAGS := ${LDFLAGS} -buildid='' -extldflags ${EXTLDFLAGS}
+EXTLDFLAGS := -static -s
+LDFLAGS := -buildid='' -extldflags '${EXTLDFLAGS}'
+#-extldflags=${EXTLDFLAGS}
 
 .PHONY: all build clean help install depends
 
@@ -9,8 +10,7 @@ all: build ## Default target, runs the build
 
 depends:
 	go mod tidy ;\
-	go mod download -x || true;\
-	sudo apt install -yqq tor upx;
+	go mod download -x || true
 
 build: depends
 	# Windows builds
@@ -34,11 +34,7 @@ build: depends
 	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
 	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxyarwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
-	for i in $(ls bin/); do \
-		upx -f ./bin/$$i;\
-		sudo setcap cap_net_bind_service=+ep ./bin/$$i; \
-	done; \
-	echo "Build success"
+	./scripts/compress.sh
 
 install: build ## Install the appropriate binary based on the host architecture and OS
 	@os=$$(uname -s | tr '[:upper:]' '[:lower:]'); \

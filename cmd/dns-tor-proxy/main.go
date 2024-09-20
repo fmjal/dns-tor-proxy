@@ -18,7 +18,7 @@ func main(){
 	var version *bool = pflag.BoolP("version", "v", false, "Prints the version and exists.")
 	var doh *bool = pflag.Bool("doh", true, "Use DoH servers as upstream.")
 	var dohserver *string = pflag.String("dohaddress", "https://dns.adguard.com/dns-query", "The DoH server address.")
-  var listenaddr *string = pflag.String("listenaddress","127.53.53.1","The Address to listen on")
+    var listenaddr *string = pflag.String("listenaddress","127.53.53.1","The Address to listen on")
 	pflag.Usage = func () {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 		pflag.PrintDefaults()
@@ -30,24 +30,24 @@ func main(){
 		os.Exit(0)
 	}
 	if *version == true {
-		fmt.Println("0.2.0")
+		fmt.Println("0.2.1-fmjal1")
 		os.Exit(0)
 	}
 	conf := &config.Config{}
 	//conf.Upstream.UpstreamGoogle = []config.UpstreamDetail{{URL: "https://mozilla.cloudflare-dns.com/dns-query", Weight: 50}}
 	conf.Upstream.UpstreamIETF = []config.UpstreamDetail{{URL: *dohserver, Weight: 60}}
-	conf.Other.Timeout = 10
+	conf.Other.Timeout = 100
 	conf.Other.NoECS = true
 	conf.Upstream.UpstreamSelector = config.Random
 
 	// Now create and keep the client
 	client, _ := dserver.NewClient(conf, proxy)
 
-	fmt.Printf("Starting server at port %d with local proxy at %s\n", *port, *proxy)
+	fmt.Printf("Starting server at\t%s:%d with local proxy at %s\r\n", *listenaddr, *port, *proxy)
 	if *doh {
-		fmt.Printf("Using DoH server %s as upstream.\n", *dohserver)
+		fmt.Printf("Using DoH server %s as upstream.\r\n", *dohserver)
 	} else {
-		fmt.Printf("Using %s as upstream server\n", *server)
+		fmt.Printf("Using %s as upstream server\r\n", *server)
 	}
 	dserver.Listen(port,listenaddr, server, proxy, client, doh);
 }

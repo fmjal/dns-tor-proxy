@@ -1,12 +1,14 @@
 SHELL := /bin/bash
 DESTDIR := /
+LDFLAGS := 
 .PHONY: all build clean help install depends
 
 all: build ## Default target, runs the build
 
 depends:
 	go mod tidy ;\
-	go mod download -x || true;
+	go mod download -x || true;\
+	sudo apt-get install -qqqqy upx 2> /dev/null > /dev/nul
 
 build: depends
 	# Windows builds

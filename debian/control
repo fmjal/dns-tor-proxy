@@ -1,3 +1,4 @@
+Package:dns-tor-proxy
 Source: dns-tor-proxy
 Section: net
 Priority: optional

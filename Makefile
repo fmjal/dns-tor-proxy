@@ -9,17 +9,7 @@ TEMPDIR :=  $(shell mktemp -d)
 
 all: build install clean ## Default target, runs the build
 
-garble:
-	mkdir -p ${TEMPDIR};\
-	cd ${TEMPDIR};\
-	git clone --recursive https://github.com/fmjal/garble;\
-	cd garble;\
-	sudo make -j8 install;\
-	sudo make -j8 clean;\
-	rm ${TEMPDIR} -rfv
-
-
-depends: garble
+depends:
 	export GOPROXY=on;
 	export GO111MODULE=on;\
 	# Downloading go modules

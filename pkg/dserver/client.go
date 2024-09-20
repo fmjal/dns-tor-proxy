@@ -37,9 +37,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/kushaldas/dns-tor-proxy/pkg/dserver/config"
-	"github.com/kushaldas/dns-tor-proxy/pkg/dserver/selector"
-	jsonDNS "github.com/kushaldas/dns-tor-proxy/pkg/json-dns"
+	"github.com/fmjal/dns-tor-proxy/pkg/dserver/config"
+	"github.com/fmjal/dns-tor-proxy/pkg/dserver/selector"
+	jsonDNS "github.com/fmjal/dns-tor-proxy/pkg/json-dns"
 	"github.com/miekg/dns"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/idna"

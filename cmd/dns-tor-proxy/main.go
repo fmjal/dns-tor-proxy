@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kushaldas/dns-tor-proxy/pkg/dserver"
-	"github.com/kushaldas/dns-tor-proxy/pkg/dserver/config"
+	"github.com/fmjal/dns-tor-proxy/pkg/dserver"
+	"github.com/fmjal/dns-tor-proxy/pkg/dserver/config"
 	"github.com/spf13/pflag"
 )
 

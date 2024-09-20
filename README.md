@@ -18,7 +18,7 @@ export GOROOT=~/go/
 ```
 
 And then checkout the source at
-`~/gocode/src/github.com/kushaldas/dns-tor-proxy` directory. Get inside of that
+`~/gocode/src/github.com/fmjal/dns-tor-proxy` directory. Get inside of that
 directory and use the following command to build.
 
 ```

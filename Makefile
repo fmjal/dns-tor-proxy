@@ -15,25 +15,25 @@ depends:
 build: depends
 	# Windows builds
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-i386.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-i386.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-amd64.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-amd64.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=windows GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-arm64.exe github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=windows GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-arm64.exe github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	# Linux builds
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-i386 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-i386 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-amd64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-linux-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	# Android and macOS builds
 	CGO_ENABLED=0 \
-	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=android GOARCH=arm64 go build -ldflags="" -o bin/dns-tor-proxy-android-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-arm64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-arm64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	CGO_ENABLED=0 \
-	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-amd64 github.com/kushaldas/dns-tor-proxy/cmd/dns-tor-proxy
+	GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/dns-tor-proxy-darwin-amd64 github.com/fmjal/dns-tor-proxy/cmd/dns-tor-proxy
 	./scripts/compress.sh
 
 install: build ## Install the appropriate binary based on the host architecture and OS

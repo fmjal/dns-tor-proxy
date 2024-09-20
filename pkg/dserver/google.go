@@ -34,8 +34,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kushaldas/dns-tor-proxy/pkg/dserver/selector"
-	jsonDNS "github.com/kushaldas/dns-tor-proxy/pkg/json-dns"
+	"github.com/fmjal/dns-tor-proxy/pkg/dserver/selector"
+	jsonDNS "github.com/fmjal/dns-tor-proxy/pkg/json-dns"
 	"github.com/miekg/dns"
 )
 

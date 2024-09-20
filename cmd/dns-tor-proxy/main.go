@@ -43,11 +43,11 @@ func main(){
 	// Now create and keep the client
 	client, _ := dserver.NewClient(conf, proxy)
 
-	fmt.Printf("Starting server at\t%s:%d with local proxy at %s\r\n", *listenaddr, *port, *proxy)
+	fmt.Printf("Starting server\r\nListening at\t%s:%d\r\nlocal proxy at\t%s\r\n", *listenaddr, *port, *proxy)
 	if *doh {
-		fmt.Printf("Using DoH server %s as upstream.\r\n", *dohserver)
+		fmt.Printf("Using DoH at\t%s as upstream.\r\n", *dohserver)
 	} else {
-		fmt.Printf("Using %s as upstream server\r\n", *server)
+		fmt.Printf("Using DNS at\t%supstream server\r\n", *server)
 	}
 	dserver.Listen(port,listenaddr, server, proxy, client, doh);
 }

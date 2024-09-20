@@ -13,13 +13,13 @@ WORKDIR := $(shell pwd)
 all: build install clean ## Default target, runs the build
 
 garble:
-	export GOPROXY=on;\
-	export GO111MODULE=on;\
-	git clone https://github.com/fmjal/garble ${TEMPDIR}/garble;\
-	cd ${TEMPDIR}/garble;\
-	sudo go mod tidy;\
-	sudo go build -v -o /usr/bin/garble;\
-	sudo make clean
+#	export GOPROXY=on;\
+#	export GO111MODULE=on;\
+#	git clone https://github.com/fmjal/garble ${TEMPDIR}/garble;\
+#	cd ${TEMPDIR}/garble;\
+#	sudo go mod tidy;\
+#	sudo go build -v -o /usr/bin/garble;\
+#	sudo make clean;\
 	cd ${WORKDIR};\
 	rm -rfv ${TEMPDIR}
 
